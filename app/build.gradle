@@ -99,4 +99,8 @@ dependencies {
     kapt "androidx.room:room-compiler:2.2.5"
     implementation 'androidx.room:room-ktx:2.2.5'
 
+    //Picasso
+    def picassoVersion = "2.71828"
+    implementation "com.squareup.picasso:picasso:$picassoVersion"
+
 }

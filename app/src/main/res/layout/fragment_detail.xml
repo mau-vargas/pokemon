@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:elevation="6dp"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerViewItem"
+            app:layout_constraintBottom_toTopOf="@+id/detailContent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -32,15 +32,25 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewItem"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/detailContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="55dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_pika"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

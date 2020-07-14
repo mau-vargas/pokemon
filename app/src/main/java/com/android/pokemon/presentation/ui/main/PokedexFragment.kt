@@ -49,21 +49,6 @@ class PokedexFragment : BaseFragment() {
         initLiveData()
     }
 
-    protected fun setUpToolBar(
-        toolbar: Toolbar,
-        toolbarTitle: Int,
-        resId: Int = R.drawable.ic_launcher_background
-    ) {
-        setHasOptionsMenu(true)
-        with(activity as AppCompatActivity) {
-            setSupportActionBar(toolbar)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.title = ""
-            supportActionBar?.setHomeAsUpIndicator(resId)
-            toolbar.toolbar_title.text = getString(toolbarTitle)
-            supportActionBar?.show()
-        }
-    }
 
     private fun initLiveData() {
         viewModel.liveGetPokemons.look(
@@ -72,32 +57,33 @@ class PokedexFragment : BaseFragment() {
             ::handleSuccess,
             ::handleFailure
         )
-        viewModel.getPokemon()
+
+        viewModel.validatePersistence()
     }
 
 
     private fun handleSuccess(listPokemon: GetPokemonsResponse) {
         // toolbar.toolbar_title.text = ""
-        // hideProgress()
+        hideProgress()
         showItems(listPokemon)
     }
 
     private fun handleFailure(failure: Failure) {
         when (failure) {
             is Failure.Error -> {
-                //   hideProgress()
+                hideProgress()
             }
         }
     }
 
     private fun showItems(listPokemon: GetPokemonsResponse) {
-        hideProgress()
-
         val itemsToAdapter: MutableList<ItemPokedex> = mutableListOf()
         listPokemon.pokemon_species.forEach {
             itemsToAdapter.add(
                 ItemPokedex(
-                    it.name
+                    it.name,
+                    it.url.replace("https://pokeapi.co/api/v2/pokemon-species/", "")
+                        .replace("/", "")
                 )
             )
         }
@@ -148,8 +134,9 @@ class PokedexFragment : BaseFragment() {
         }
     }
 
-    private fun selected(id: Long) {
-        val bundle = bundleOf("id" to id)
+    private fun selected(id: Int) {
+        var item = pokedexAdapter.itemsList[id]
+        val bundle = bundleOf("id" to item.id)
         findNavController().navigate(
             R.id.action_pokedexFragment_to_detailFragment,
             bundle

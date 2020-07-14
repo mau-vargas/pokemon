@@ -11,9 +11,9 @@ import javax.inject.Inject
 import kotlin.reflect.KFunction1
 
 class PokedexAdapter @Inject constructor(val context: Context) :
-        RecyclerView.Adapter<PokedexAdapter.ViewHolder>(), Filterable {
+    RecyclerView.Adapter<PokedexAdapter.ViewHolder>(), Filterable {
 
-    lateinit var selected: KFunction1<Long, Unit>
+    lateinit var selected: KFunction1<Int, Unit>
 
     var itemsList: List<ItemPokedex> = listOf()
 
@@ -38,7 +38,7 @@ class PokedexAdapter @Inject constructor(val context: Context) :
 
 
         holder.item.setOnClickListener {
-            selected.invoke(position.toLong())
+            selected.invoke(position)
             true
         }
     }

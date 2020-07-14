@@ -3,7 +3,11 @@ package com.android.pokemon.presentation.util
 import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import com.android.pokemon.R
+import kotlinx.android.synthetic.main.fragment_pokedex.view.*
 import javax.inject.Inject
 
 abstract class BaseFragment : Fragment() {
@@ -60,6 +64,22 @@ abstract class BaseFragment : Fragment() {
         view?.requestFocus()
         view?.setOnKeyListener { _, keyCode, _ ->
             keyCode == KeyEvent.KEYCODE_BACK
+        }
+    }
+
+    protected fun setUpToolBar(
+        toolbar: Toolbar,
+        toolbarTitle: Int,
+        resId: Int = R.drawable.ic_launcher_background
+    ) {
+        setHasOptionsMenu(true)
+        with(activity as AppCompatActivity) {
+            setSupportActionBar(toolbar)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.title = ""
+            supportActionBar?.setHomeAsUpIndicator(resId)
+            toolbar.toolbar_title.text = getString(toolbarTitle)
+            supportActionBar?.show()
         }
     }
 }

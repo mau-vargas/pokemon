@@ -28,4 +28,10 @@ class PokedexViewModel @Inject constructor(private val getPokemonUserCase: GetPo
         getPokemonUserCase.invoke(GetPokemonRequest(), ::onSuccess, ::onFailure)
     }
 
+
+    fun validatePersistence(){
+        if(liveGetPokemons.value == null){
+            getPokemon()
+        }
+    }
 }
