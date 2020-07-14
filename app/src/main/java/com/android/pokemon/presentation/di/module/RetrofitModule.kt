@@ -1,6 +1,5 @@
 package com.android.pokemon.presentation.di.module
 
-import android.provider.ContactsContract.CommonDataKinds.Website.URL
 import com.android.pokemon.BuildConfig
 import com.android.pokemon.data.network.APIService
 import com.google.gson.GsonBuilder
@@ -38,7 +37,7 @@ class RetrofitModule {
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         val gsonBuilder = GsonBuilder()
         val retrofitBuilder = Retrofit.Builder()
-            //.baseUrl(BuildConfig.URL)
+            .baseUrl(BuildConfig.URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gsonBuilder.create()))
         return retrofitBuilder.build()

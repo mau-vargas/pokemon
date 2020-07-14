@@ -5,7 +5,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 
 interface APIService {
-    @GET(ServicesConstants.GET_POKEMONS_PATH)
+    @GET(ServicesConstants.GET_POKEMON_PATH)
     fun getPokemonsServices(): Call<GetPokemonsResponse>
 
 }
