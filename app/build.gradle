@@ -16,6 +16,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+
+       // https://pokeapi.co/api/v2/
     }
 
     buildTypes {
