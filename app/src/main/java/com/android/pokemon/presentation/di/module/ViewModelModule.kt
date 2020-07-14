@@ -2,7 +2,7 @@ package com.android.pokemon.presentation.di.module
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.android.pokemon.presentation.ui.PokedexViewModel
+import com.android.pokemon.presentation.ui.main.PokedexViewModel
 import com.android.pokemon.presentation.util.ViewModelFactory
 import com.android.pokemon.presentation.util.ViewModelKey
 import dagger.Binds

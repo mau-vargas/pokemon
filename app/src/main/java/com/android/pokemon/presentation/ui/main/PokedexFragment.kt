@@ -1,4 +1,4 @@
-package com.android.pokemon.presentation.ui
+package com.android.pokemon.presentation.ui.main
 
 import android.os.Bundle
 import android.view.Menu
@@ -8,11 +8,12 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.pokemon.R
 import com.android.pokemon.databinding.FragmentPokedexBinding
 import com.android.pokemon.domain.entity.GetPokemonsResponse
@@ -94,11 +95,15 @@ class PokedexFragment : BaseFragment() {
 
         val itemsToAdapter: MutableList<ItemPokedex> = mutableListOf()
         listPokemon.pokemon_species.forEach {
-            itemsToAdapter.add(ItemPokedex(it.name))
+            itemsToAdapter.add(
+                ItemPokedex(
+                    it.name
+                )
+            )
         }
 
         pokedexAdapter.apply {
-            editItem = ::editItem
+            selected = ::selected
         }
 
         pokedexAdapter.setList(itemsToAdapter)
@@ -143,8 +148,12 @@ class PokedexFragment : BaseFragment() {
         }
     }
 
-    private fun editItem(id: Long) {
-
+    private fun selected(id: Long) {
+        val bundle = bundleOf("id" to id)
+        findNavController().navigate(
+            R.id.action_pokedexFragment_to_detailFragment,
+            bundle
+        )
     }
 
 }

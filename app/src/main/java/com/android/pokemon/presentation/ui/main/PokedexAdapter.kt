@@ -1,11 +1,10 @@
-package com.android.pokemon.presentation.ui
+package com.android.pokemon.presentation.ui.main
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.android.pokemon.databinding.ItemPokemonBinding
 import javax.inject.Inject
@@ -14,12 +13,10 @@ import kotlin.reflect.KFunction1
 class PokedexAdapter @Inject constructor(val context: Context) :
         RecyclerView.Adapter<PokedexAdapter.ViewHolder>(), Filterable {
 
-    lateinit var plusCounter: KFunction1<ItemPokedex, Unit>
-    lateinit var minusCounter: KFunction1<ItemPokedex, Unit>
-    lateinit var editItem: KFunction1<Long, Unit>
-
+    lateinit var selected: KFunction1<Long, Unit>
 
     var itemsList: List<ItemPokedex> = listOf()
+
     lateinit var itemsListFull: ArrayList<ItemPokedex>
 
 
@@ -40,10 +37,8 @@ class PokedexAdapter @Inject constructor(val context: Context) :
         holder.itemName.text = item.title
 
 
-
-
-        holder.itemName.setOnLongClickListener {
-            editItem.invoke(position.toLong())
+        holder.item.setOnClickListener {
+            selected.invoke(position.toLong())
             true
         }
     }
@@ -82,16 +77,14 @@ class PokedexAdapter @Inject constructor(val context: Context) :
 
     }
 
-
     class ViewHolder(binding: ItemPokemonBinding) : RecyclerView.ViewHolder(binding.root) {
+        val item = binding.item
         val itemName = binding.itemName
     }
-
 
     fun setList(data: MutableList<ItemPokedex>) {
         this.itemsList = data
         itemsListFull = ArrayList(data)
     }
-
 
 }

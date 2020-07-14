@@ -5,6 +5,14 @@
 
     <fragment
         android:id="@+id/pokedexFragment"
-        android:name="com.android.pokemon.presentation.ui.PokedexFragment"
-        android:label="PokedexFragment" />
+        android:name="com.android.pokemon.presentation.ui.main.PokedexFragment"
+        android:label="PokedexFragment" >
+        <action
+            android:id="@+id/action_pokedexFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.android.pokemon.presentation.ui.detail.DetailFragment"
+        android:label="DetailFragment" />
 </navigation>

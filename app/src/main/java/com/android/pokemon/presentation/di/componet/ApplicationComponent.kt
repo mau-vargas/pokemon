@@ -5,7 +5,8 @@ import com.android.pokemon.presentation.di.module.MainModule
 import com.android.pokemon.presentation.di.module.RepositoryModule
 import com.android.pokemon.presentation.di.module.RetrofitModule
 import com.android.pokemon.presentation.di.module.ViewModelModule
-import com.android.pokemon.presentation.ui.PokedexFragment
+import com.android.pokemon.presentation.ui.detail.DetailFragment
+import com.android.pokemon.presentation.ui.main.PokedexFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -23,5 +24,6 @@ interface ApplicationComponent : FragmentInjector {
 
 interface FragmentInjector {
     fun inject(pokedexFragment: PokedexFragment)
+    fun inject(detailFragment: DetailFragment)
 
 }

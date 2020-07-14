@@ -1,4 +1,4 @@
-package com.android.pokemon.presentation.ui
+package com.android.pokemon.presentation.ui.main
 
 import androidx.lifecycle.MutableLiveData
 import com.android.pokemon.domain.entity.GetPokemonRequest
