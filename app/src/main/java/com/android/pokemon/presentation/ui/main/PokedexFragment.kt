@@ -136,7 +136,7 @@ class PokedexFragment : BaseFragment() {
 
     private fun selected(id: Int) {
         var item = pokedexAdapter.itemsList[id]
-        val bundle = bundleOf("id" to item.id)
+        val bundle = bundleOf("id" to item.id, "name" to item.title)
         findNavController().navigate(
             R.id.action_pokedexFragment_to_detailFragment,
             bundle

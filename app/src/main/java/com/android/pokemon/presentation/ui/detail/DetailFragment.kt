@@ -2,7 +2,6 @@ package com.android.pokemon.presentation.ui.detail
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.viewModels
@@ -25,30 +24,38 @@ class DetailFragment : BaseFragment() {
 
     val picasso = Picasso.get()
 
+    lateinit var id:String
+    lateinit var name:String
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = DataBindingUtil.bind<ViewDataBinding>(view) as FragmentDetailBinding
         appComponent().inject(this@DetailFragment)
 
-
-
-        getArgument()
+        initLiveData()
     }
 
-    private fun getArgument() =
-        arguments?.let {
-            picasso.load("https://pokeres.bastionbot.org/images/pokemon/${it["id"]}.png")
-                .into(binding.imageView)
-        }
-
     private fun initLiveData() {
-        viewModel.liveGetPokemons.look(
+        viewModel.liveGetPokemonDetail.look(
             this@DetailFragment,
             ::showProgress,
             ::handleSuccess,
             ::handleFailure
         )
-        viewModel.getPokemon()
+        getArgument()
+    }
+
+    private fun getArgument() {
+        arguments?.let {
+            id = it["id"] as String
+            name = it["name"] as String
+
+            picasso.load("https://pokeres.bastionbot.org/images/pokemon/${id}.png")
+                .into(binding.imageView)
+            viewModel.getPokemonDetail(name)
+
+        }
+
     }
 
     private fun handleSuccess(listPokemon: GetPokemonsResponse) {
