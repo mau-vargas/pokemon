@@ -1,6 +1,7 @@
 package com.android.pokemon.presentation.ui.main
 
 import androidx.lifecycle.MutableLiveData
+import com.android.pokemon.data.db.PokemonEntity
 import com.android.pokemon.domain.entity.GetPokemonRequest
 import com.android.pokemon.domain.entity.GetPokemonsResponse
 import com.android.pokemon.domain.interactor.GetPokemonUserCase

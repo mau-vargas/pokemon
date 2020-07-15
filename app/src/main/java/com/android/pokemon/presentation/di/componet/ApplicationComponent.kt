@@ -5,7 +5,7 @@ import com.android.pokemon.presentation.di.module.MainModule
 import com.android.pokemon.presentation.di.module.RepositoryModule
 import com.android.pokemon.presentation.di.module.RetrofitModule
 import com.android.pokemon.presentation.di.module.ViewModelModule
-import com.android.pokemon.presentation.ui.detail.DetailFragment
+import com.android.pokemon.presentation.ui.detail.pokemonDetail.DetailFragment
 import com.android.pokemon.presentation.ui.main.PokedexFragment
 import dagger.Component
 import javax.inject.Singleton

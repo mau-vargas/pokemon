@@ -1,4 +1,4 @@
-package com.android.pokemon.presentation.ui.detail
+package com.android.pokemon.presentation.ui.detail.pokemonDetail
 
 import android.os.Bundle
 import android.view.View
@@ -7,8 +7,9 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.viewModels
 import com.android.pokemon.R
 import com.android.pokemon.databinding.FragmentDetailBinding
-import com.android.pokemon.domain.entity.GetPokemonsResponse
+import com.android.pokemon.domain.entity.prueba.Borrar
 import com.android.pokemon.presentation.appComponent
+import com.android.pokemon.presentation.ui.detail.DetailViewModel
 import com.android.pokemon.presentation.util.BaseFragment
 import com.android.pokemon.presentation.util.Failure
 import com.android.pokemon.presentation.util.look
@@ -33,6 +34,8 @@ class DetailFragment : BaseFragment() {
         appComponent().inject(this@DetailFragment)
 
         initLiveData()
+
+        floatingCloseOnclick()
     }
 
     private fun initLiveData() {
@@ -58,15 +61,21 @@ class DetailFragment : BaseFragment() {
 
     }
 
-    private fun handleSuccess(listPokemon: GetPokemonsResponse) {
+    private fun floatingCloseOnclick(){
+        binding.floatingClose.setOnClickListener {
+            activity?.onBackPressed()
+        }
+    }
+
+    private fun handleSuccess(listPokemon: Borrar) {
         // toolbar.toolbar_title.text = ""
-        // hideProgress()
+         hideProgress()
     }
 
     private fun handleFailure(failure: Failure) {
         when (failure) {
             is Failure.Error -> {
-                //   hideProgress()
+                  hideProgress()
             }
         }
     }
