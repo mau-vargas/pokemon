@@ -28,18 +28,16 @@ class DetailFragment : BaseFragment() {
 
     private val picasso = Picasso.get()
 
-
     @Inject
-    lateinit var movesBottomSheet: MovesBottomSheet
-
-    @Inject
-    lateinit var abilitiesBottomSheet: AbilitiesBottoomSheet
+    lateinit var showInformationBottomSheet: ShowInformationBottomSheet
 
     @Inject
     lateinit var evolutionsBottomSheet: EvolutionsBottomSheet
 
-    lateinit var id: String
-    lateinit var name: String
+    private lateinit var id: String
+    private lateinit var name: String
+    private var moves = ArrayList<String>()
+    private var abilities = ArrayList<String>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -95,11 +93,11 @@ class DetailFragment : BaseFragment() {
         setType(pokemon.types)
 
         pokemon.moves.forEach {
-
+            moves.add(it.move.name)
         }
 
         pokemon.abilities.forEach {
-
+            abilities.add(it.ability.name)
         }
 
 
@@ -143,23 +141,28 @@ class DetailFragment : BaseFragment() {
 
     private fun itemMovesOnclick() =
         binding.cardViewMoves.setOnClickListener {
-            val arguments = Bundle()
-            arguments.putString("name", name)
-
-            movesBottomSheet.arguments = arguments
-            movesBottomSheet.show(requireActivity().supportFragmentManager, "")
+            showInformationBottomSheet(moves)
         }
 
 
     private fun itemAbilitiesOnclick() =
         binding.cardViewAbilities.setOnClickListener {
-            abilitiesBottomSheet.show(requireActivity().supportFragmentManager, "")
+            showInformationBottomSheet(abilities)
         }
 
     private fun itemEvolutionsOnclick() =
         binding.cardViewEvolutions.setOnClickListener {
             evolutionsBottomSheet.show(requireActivity().supportFragmentManager, "")
         }
+
+
+    private fun showInformationBottomSheet(list: ArrayList<String>){
+        val arguments = Bundle()
+        arguments.putString("name", name)
+        arguments.putSerializable("list",list)
+        showInformationBottomSheet.arguments = arguments
+        showInformationBottomSheet.show(requireActivity().supportFragmentManager, "")
+    }
 
 
     private fun handleFailure(failure: Failure) {

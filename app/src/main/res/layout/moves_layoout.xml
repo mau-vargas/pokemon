@@ -46,13 +46,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textName">
 
-                    <androidx.recyclerview.widget.RecyclerView
+                    <ListView
+                        android:id="@+id/listOfMoves"
                         android:layout_width="377dp"
                         android:layout_height="198dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
