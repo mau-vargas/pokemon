@@ -11,7 +11,10 @@ import com.android.pokemon.presentation.util.Failure
 import com.android.pokemon.presentation.util.Resource
 import javax.inject.Inject
 
-class PokedexViewModel @Inject constructor(private val getRemotePokemonUserCase: GetRemotePokemonUserCase, private val getLocalPokemonUserCase: GetLocalPokemonUserCase) :
+class PokedexViewModel @Inject constructor(
+    private val getRemotePokemonUserCase: GetRemotePokemonUserCase,
+    private val getLocalPokemonUserCase: GetLocalPokemonUserCase
+) :
     BaseViewModel() {
     var liveGetPokemons: MutableLiveData<Resource<List<PokemonEntity>>> = MutableLiveData()
 
@@ -30,10 +33,12 @@ class PokedexViewModel @Inject constructor(private val getRemotePokemonUserCase:
     }
 
     fun getLocalPokemon() = with(liveGetPokemons) {
-        postLoading()
-
         fun onSuccess(data: List<PokemonEntity>) {
-            postSuccess(data)
+            if (data.isNotEmpty()) {
+                postSuccess(data)
+            } else {
+                getRemotePokemon()
+            }
         }
 
         fun onFailure(failure: Failure) {
@@ -44,8 +49,8 @@ class PokedexViewModel @Inject constructor(private val getRemotePokemonUserCase:
     }
 
 
-    fun validatePersistence(){
-        if(liveGetPokemons.value == null){
+    fun validatePersistence() {
+        if (liveGetPokemons.value == null) {
             getLocalPokemon()
         }
     }

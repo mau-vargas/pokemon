@@ -15,4 +15,7 @@ interface PokedexDao {
 
     @Query("DELETE FROM pokemon")
     fun deleteLocalPokemons()
+
+    @Query("UPDATE pokemon SET favorite = :favorite  WHERE id LIKE :id ")
+    fun updateFavorite(id: Int, favorite: Boolean): Int
 }

@@ -29,12 +29,18 @@ class DetailFragment : BaseFragment() {
 
     private val picasso = Picasso.get()
 
+
     @Inject
-    lateinit var moreOptions: MoreOptions
+    lateinit var movesBottomSheet: MovesBottomSheet
+
+    @Inject
+    lateinit var abilitiesBottomSheet: AbilitiesBottoomSheet
+
+    @Inject
+    lateinit var evolutionsBottomSheet: EvolutionsBottomSheet
 
     lateinit var id: String
     lateinit var name: String
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,7 +51,9 @@ class DetailFragment : BaseFragment() {
 
         floatingCloseOnclick()
 
-        floatingActionMoreOptionsOnclick()
+        imageFavoriteOnclick()
+
+        itemMovesOnclick()
     }
 
     private fun initLiveData() {
@@ -75,13 +83,7 @@ class DetailFragment : BaseFragment() {
         }
 
 
-    private fun floatingActionMoreOptionsOnclick() =
-        binding.floatingActionMoreOptions.setOnClickListener {
-            moreOptions.show(requireActivity().supportFragmentManager, "")
-        }
-
-
-    private fun handleSuccess(pokemon: Borrar){
+    private fun handleSuccess(pokemon: Borrar) {
         hideProgress()
 
         binding.textName.text = pokemon.name
@@ -107,7 +109,9 @@ class DetailFragment : BaseFragment() {
                 0 -> {
                     binding.firstContentType.visible()
                     binding.firstType.text = name
-                    binding.firstImageType.setImageResource(PokemonImageType.valueOf(name).getValue())
+                    binding.firstImageType.setImageResource(
+                        PokemonImageType.valueOf(name).getValue()
+                    )
                     binding.firstImageType.backgroundTintList = getColorStateList(
                         requireContext(),
                         PokemonColorType.valueOf(name).getValue()
@@ -116,7 +120,9 @@ class DetailFragment : BaseFragment() {
                 1 -> {
                     binding.secondContentType.visible()
                     binding.secondType.text = name
-                    binding.secondImageType.setImageResource(PokemonImageType.valueOf(name).getValue())
+                    binding.secondImageType.setImageResource(
+                        PokemonImageType.valueOf(name).getValue()
+                    )
                     binding.secondImageType.backgroundTintList = getColorStateList(
                         requireContext(),
                         PokemonColorType.valueOf(name).getValue()
@@ -125,6 +131,28 @@ class DetailFragment : BaseFragment() {
             }
         }
     }
+
+    private fun imageFavoriteOnclick() {
+        binding.imageFavorite.setOnClickListener {
+            it.setBackgroundResource(R.drawable.ic_star)
+        }
+    }
+
+    private fun itemMovesOnclick() =
+        binding.cardViewMoves.setOnClickListener {
+            movesBottomSheet.show(requireActivity().supportFragmentManager, "")
+        }
+
+
+    private fun itemAbilitiesOnclick() =
+        binding.cardViewAbilities.setOnClickListener {
+            abilitiesBottomSheet.show(requireActivity().supportFragmentManager, "")
+        }
+
+    private fun itemEvolutionsOnclick() =
+        binding.cardViewEvolutions.setOnClickListener {
+            evolutionsBottomSheet.show(requireActivity().supportFragmentManager, "")
+        }
 
 
     private fun handleFailure(failure: Failure) {
