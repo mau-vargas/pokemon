@@ -6,6 +6,7 @@ import com.android.pokemon.data.db.PokemonEntity
 import com.android.pokemon.data.network.APIService
 import com.android.pokemon.domain.IDataRepository
 import com.android.pokemon.domain.entity.GetPokemonsResponse
+import com.android.pokemon.domain.entity.evolution.prueba
 import com.android.pokemon.domain.entity.prueba.Borrar
 import javax.inject.Inject
 
@@ -28,6 +29,13 @@ class DataRepository @Inject constructor(
     override suspend fun getLocalPokemons(): List<PokemonEntity> {
         return pokedexDao.getLocalPokemons()
     }
+
+    override suspend fun getPokemonEvolution(name: String): prueba {
+        return apiService.getPokemonEvolutionService(name).execute().body()!!
+    }
+
+
+
 
 
 }

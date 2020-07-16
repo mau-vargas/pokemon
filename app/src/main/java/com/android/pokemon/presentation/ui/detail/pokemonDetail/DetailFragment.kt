@@ -153,6 +153,8 @@ class DetailFragment : BaseFragment() {
     private fun itemEvolutionsOnclick() =
         binding.cardViewEvolutions.setOnClickListener {
             evolutionsBottomSheet.show(requireActivity().supportFragmentManager, "")
+
+            viewModel.getPokemonEvolution(id)
         }
 
 

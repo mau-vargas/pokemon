@@ -9,19 +9,18 @@ import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.android.pokemon.R
-import com.android.pokemon.databinding.MovesLayooutBinding
-import com.android.pokemon.presentation.ui.detail.MoreOptions
+import com.android.pokemon.databinding.ShowInformationLayoutBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import javax.inject.Inject
 
 class ShowInformationBottomSheet @Inject constructor() : BottomSheetDialogFragment() {
-    private lateinit var binding: MovesLayooutBinding
+    private lateinit var binding: ShowInformationLayoutBinding
 
     lateinit var name: String
     lateinit var list: ArrayList<String>
 
     override fun setupDialog(dialog: Dialog, style: Int) {
-        val contentView = View.inflate(context, R.layout.moves_layoout, null)
+        val contentView = View.inflate(context, R.layout.show_information_layout, null)
         dialog.setContentView(contentView)
         (contentView.parent as View).setBackgroundColor(
             ContextCompat.getColor(
@@ -40,7 +39,7 @@ class ShowInformationBottomSheet @Inject constructor() : BottomSheetDialogFragme
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.moves_layoout, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.show_information_layout, container, false)
 
         val view = binding.root
 
