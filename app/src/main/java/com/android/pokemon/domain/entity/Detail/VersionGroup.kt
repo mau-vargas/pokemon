@@ -1,4 +1,4 @@
-package com.android.pokemon.domain.entity.prueba
+package com.android.pokemon.domain.entity.Detail
 
 data class VersionGroup(
     val name: String,

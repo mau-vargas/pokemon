@@ -29,7 +29,6 @@ class ShowInformationBottomSheet @Inject constructor() : BottomSheetDialogFragme
             )
         )
 
-        //dialog.dismiss()
 
     }
 
@@ -38,7 +37,6 @@ class ShowInformationBottomSheet @Inject constructor() : BottomSheetDialogFragme
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.show_information_layout, container, false)
 
         val view = binding.root
@@ -57,7 +55,13 @@ class ShowInformationBottomSheet @Inject constructor() : BottomSheetDialogFragme
 
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, listItems)
         binding.listOfMoves.adapter = adapter
-
+        imageCloseOnclick()
         return view
+    }
+
+
+
+    private fun imageCloseOnclick()=binding.imageClose.setOnClickListener {
+        dialog?.dismiss()
     }
 }

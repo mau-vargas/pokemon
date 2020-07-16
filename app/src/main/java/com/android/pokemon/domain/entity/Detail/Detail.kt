@@ -1,6 +1,6 @@
-package com.android.pokemon.domain.entity.prueba
+package com.android.pokemon.domain.entity.Detail
 
-data class Borrar(
+data class Detail(
     val abilities: List<Ability>,
     val location_area_encounters: String,
     val moves: List<Move>,

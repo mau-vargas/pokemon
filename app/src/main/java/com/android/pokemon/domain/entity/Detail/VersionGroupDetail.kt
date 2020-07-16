@@ -1,4 +1,4 @@
-package com.android.pokemon.domain.entity.prueba
+package com.android.pokemon.domain.entity.Detail
 
 data class VersionGroupDetail(
     val level_learned_at: Int,

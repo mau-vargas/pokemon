@@ -1,8 +1,8 @@
 package com.android.pokemon.presentation.ui.detail
 
 import androidx.lifecycle.MutableLiveData
-import com.android.pokemon.domain.entity.evolution.prueba
-import com.android.pokemon.domain.entity.prueba.Borrar
+import com.android.pokemon.domain.entity.evolution.Evolution
+import com.android.pokemon.domain.entity.Detail.Detail
 import com.android.pokemon.domain.interactor.GetPokemonDetailUserCase
 import com.android.pokemon.domain.interactor.GetPokemonEvolutionUserCase
 import com.android.pokemon.presentation.util.BaseViewModel
@@ -16,11 +16,11 @@ class DetailViewModel @Inject constructor(
 ) :
     BaseViewModel() {
 
-    var liveGetPokemonDetail: MutableLiveData<Resource<Borrar>> = MutableLiveData()
-    var liveGetPokemonEvolution: MutableLiveData<Resource<prueba>> = MutableLiveData()
+    var liveGetPokemonDetail: MutableLiveData<Resource<Detail>> = MutableLiveData()
+    var liveGetPokemonEvolution: MutableLiveData<Resource<Evolution>> = MutableLiveData()
 
 
-    val pokemonEvolution: prueba?
+    val pokemonEvolution: Evolution?
         get() {
             return liveGetPokemonEvolution.value?.data
         }
@@ -29,7 +29,7 @@ class DetailViewModel @Inject constructor(
     fun getPokemonDetail(name: String) = with(liveGetPokemonDetail) {
         postLoading()
 
-        fun onSuccess(data: Borrar) {
+        fun onSuccess(data: Detail) {
             postSuccess(data)
         }
 
@@ -44,7 +44,7 @@ class DetailViewModel @Inject constructor(
     fun getPokemonEvolution(name: String) = with(liveGetPokemonEvolution) {
         postLoading()
 
-        fun onSuccess(data: prueba) {
+        fun onSuccess(data: Evolution) {
             postSuccess(data)
         }
 

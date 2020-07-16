@@ -1,4 +1,4 @@
-package com.android.pokemon.domain.entity.prueba
+package com.android.pokemon.domain.entity.Detail
 
 data class Sprites(
     val back_default: String,

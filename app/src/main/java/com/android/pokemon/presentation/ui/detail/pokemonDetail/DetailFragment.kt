@@ -8,9 +8,9 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.viewModels
 import com.android.pokemon.R
 import com.android.pokemon.databinding.FragmentDetailBinding
-import com.android.pokemon.domain.entity.evolution.prueba
-import com.android.pokemon.domain.entity.prueba.Borrar
-import com.android.pokemon.domain.entity.prueba.Type
+import com.android.pokemon.domain.entity.evolution.Evolution
+import com.android.pokemon.domain.entity.Detail.Detail
+import com.android.pokemon.domain.entity.Detail.Type
 import com.android.pokemon.presentation.appComponent
 import com.android.pokemon.presentation.ui.detail.DetailViewModel
 import com.android.pokemon.presentation.util.*
@@ -62,6 +62,12 @@ class DetailFragment : BaseFragment() {
         itemEvolutionsOnclick()
     }
 
+
+    override fun onStart() {
+        super.onStart()
+        hideKeyboard()
+    }
+
     private fun initLiveData() {
         viewModel.liveGetPokemonDetail.look(
             this@DetailFragment,
@@ -100,7 +106,7 @@ class DetailFragment : BaseFragment() {
         }
 
 
-    private fun handleSuccess(pokemon: Borrar) {
+    private fun handleSuccess(pokemon: Detail) {
         hideProgress()
         name = pokemon.name
         binding.textName.text = name
@@ -117,7 +123,7 @@ class DetailFragment : BaseFragment() {
         }
     }
 
-    private fun handleEvolutionSuccess(pokemon: prueba) {
+    private fun handleEvolutionSuccess(pokemon: Evolution) {
         hideProgress()
 
         showEvolution(pokemon)
@@ -187,7 +193,7 @@ class DetailFragment : BaseFragment() {
         showInformationBottomSheet.show(requireActivity().supportFragmentManager, "")
     }
 
-    private fun showEvolution(pokemon: prueba) {
+    private fun showEvolution(pokemon: Evolution) {
         if (pokemon.chain.evolves_to.isNotEmpty()) {
             val nameEvolution = pokemon.chain.evolves_to.first().species.name
             val arguments = Bundle()
