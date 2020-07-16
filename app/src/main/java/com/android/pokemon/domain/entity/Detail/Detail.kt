@@ -5,7 +5,6 @@ data class Detail(
     val location_area_encounters: String,
     val moves: List<Move>,
     val types: List<Type>,
-
     val height: Int,
     val weight: Int,
     val id: Int,
