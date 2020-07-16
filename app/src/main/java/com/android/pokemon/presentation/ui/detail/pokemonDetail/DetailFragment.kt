@@ -12,7 +12,6 @@ import com.android.pokemon.domain.entity.prueba.Borrar
 import com.android.pokemon.domain.entity.prueba.Type
 import com.android.pokemon.presentation.appComponent
 import com.android.pokemon.presentation.ui.detail.DetailViewModel
-import com.android.pokemon.presentation.ui.detail.MoreOptions
 import com.android.pokemon.presentation.util.*
 import com.android.pokemon.presentation.util.extension.visible
 import com.squareup.picasso.Picasso
@@ -89,8 +88,8 @@ class DetailFragment : BaseFragment() {
 
     private fun handleSuccess(pokemon: Borrar) {
         hideProgress()
-
-        binding.textName.text = pokemon.name
+        name = pokemon.name
+        binding.textName.text = name
         binding.weightValue.text = pokemon.weight.toString()
         binding.heightValue.text = pokemon.height.toString()
         setType(pokemon.types)
@@ -108,28 +107,28 @@ class DetailFragment : BaseFragment() {
 
     private fun setType(types: List<Type>) {
         types.forEachIndexed { index, type ->
-            var name = type.type.name
+            val type = type.type.name
             when (index) {
                 0 -> {
                     binding.firstContentType.visible()
-                    binding.firstType.text = name
+                    binding.firstType.text = type
                     binding.firstImageType.setImageResource(
-                        PokemonImageType.valueOf(name).getValue()
+                        PokemonImageType.valueOf(type).getValue()
                     )
                     binding.firstImageType.backgroundTintList = getColorStateList(
                         requireContext(),
-                        PokemonColorType.valueOf(name).getValue()
+                        PokemonColorType.valueOf(type).getValue()
                     );
                 }
                 1 -> {
                     binding.secondContentType.visible()
-                    binding.secondType.text = name
+                    binding.secondType.text = type
                     binding.secondImageType.setImageResource(
-                        PokemonImageType.valueOf(name).getValue()
+                        PokemonImageType.valueOf(type).getValue()
                     )
                     binding.secondImageType.backgroundTintList = getColorStateList(
                         requireContext(),
-                        PokemonColorType.valueOf(name).getValue()
+                        PokemonColorType.valueOf(type).getValue()
                     );
                 }
             }
@@ -144,6 +143,10 @@ class DetailFragment : BaseFragment() {
 
     private fun itemMovesOnclick() =
         binding.cardViewMoves.setOnClickListener {
+            val arguments = Bundle()
+            arguments.putString("name", name)
+
+            movesBottomSheet.arguments = arguments
             movesBottomSheet.show(requireActivity().supportFragmentManager, "")
         }
 
