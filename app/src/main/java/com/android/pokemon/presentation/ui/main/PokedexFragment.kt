@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.pokemon.R
 import com.android.pokemon.data.db.PokemonEntity
@@ -93,8 +94,8 @@ class PokedexFragment : BaseFragment() {
         }
 
         pokedexAdapter.setList(itemsToAdapter)
-
-        val lim = LinearLayoutManager(requireContext())
+        val lim = GridLayoutManager(context, 3)
+        //val lim = LinearLayoutManager(requireContext())
         lim.orientation = LinearLayoutManager.VERTICAL
         binding.recyclerViewItem.layoutManager = lim
         binding.recyclerViewItem.adapter = pokedexAdapter
@@ -108,8 +109,6 @@ class PokedexFragment : BaseFragment() {
 
         val searchAutoComplete =
             searchView.findViewById<View>(R.id.search_src_text) as SearchView.SearchAutoComplete
-        searchAutoComplete.setHintTextColor(resources.getColor(R.color.colorPrimary))
-        searchAutoComplete.setTextColor(resources.getColor(R.color.colorPrimary))
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(s: String): Boolean {
