@@ -54,6 +54,10 @@ class DetailFragment : BaseFragment() {
         imageFavoriteOnclick()
 
         itemMovesOnclick()
+
+        itemAbilitiesOnclick()
+
+        itemEvolutionsOnclick()
     }
 
     private fun initLiveData() {
