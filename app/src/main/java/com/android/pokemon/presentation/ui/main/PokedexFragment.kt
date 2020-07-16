@@ -95,7 +95,6 @@ class PokedexFragment : BaseFragment() {
 
         pokedexAdapter.setList(itemsToAdapter)
         val lim = GridLayoutManager(context, 3)
-        //val lim = LinearLayoutManager(requireContext())
         lim.orientation = LinearLayoutManager.VERTICAL
         binding.recyclerViewItem.layoutManager = lim
         binding.recyclerViewItem.adapter = pokedexAdapter
