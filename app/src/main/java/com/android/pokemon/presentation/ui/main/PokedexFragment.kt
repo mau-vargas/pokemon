@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.pokemon.R
+import com.android.pokemon.data.db.PokemonEntity
 import com.android.pokemon.databinding.FragmentPokedexBinding
 import com.android.pokemon.domain.entity.GetPokemonsResponse
 import com.android.pokemon.presentation.appComponent
@@ -31,7 +32,6 @@ class PokedexFragment : BaseFragment() {
     private lateinit var binding: FragmentPokedexBinding
 
     private val viewModel: PokedexViewModel by viewModels { viewModelFactory }
-
 
     @Inject
     lateinit var pokedexAdapter: PokedexAdapter
@@ -62,7 +62,7 @@ class PokedexFragment : BaseFragment() {
     }
 
 
-    private fun handleSuccess(listPokemon: GetPokemonsResponse) {
+    private fun handleSuccess(listPokemon: List<PokemonEntity>) {
         // toolbar.toolbar_title.text = ""
         hideProgress()
         showItems(listPokemon)
@@ -76,9 +76,9 @@ class PokedexFragment : BaseFragment() {
         }
     }
 
-    private fun showItems(listPokemon: GetPokemonsResponse) {
+    private fun showItems(listPokemon: List<PokemonEntity>) {
         val itemsToAdapter: MutableList<ItemPokedex> = mutableListOf()
-        listPokemon.pokemon_species.forEach {
+        listPokemon.forEach {
             itemsToAdapter.add(
                 ItemPokedex(
                     it.name,

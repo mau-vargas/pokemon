@@ -2,6 +2,7 @@ package com.android.pokemon.presentation.util
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.android.pokemon.data.db.PokemonEntity
 
 abstract class BaseViewModel : ViewModel() {
 

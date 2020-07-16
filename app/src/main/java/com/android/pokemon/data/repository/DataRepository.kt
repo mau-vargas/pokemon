@@ -9,7 +9,11 @@ import com.android.pokemon.domain.entity.GetPokemonsResponse
 import com.android.pokemon.domain.entity.prueba.Borrar
 import javax.inject.Inject
 
-class DataRepository @Inject constructor( var context: Context,private val apiService: APIService,private val pokedexDao: PokedexDao): IDataRepository {
+class DataRepository @Inject constructor(
+    var context: Context,
+    private val apiService: APIService,
+    private val pokedexDao: PokedexDao
+) : IDataRepository {
 
     override suspend fun getPokemons(): GetPokemonsResponse {
         val response = apiService.getPokemonServices().execute().body()!!
@@ -21,6 +25,9 @@ class DataRepository @Inject constructor( var context: Context,private val apiSe
         return apiService.getPokemonDetailServices(name).execute().body()!!
     }
 
+    override suspend fun getLocalPokemons(): List<PokemonEntity> {
+        return pokedexDao.getLocalPokemons()
+    }
 
 
 }

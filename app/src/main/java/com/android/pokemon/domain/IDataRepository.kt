@@ -11,4 +11,11 @@ interface IDataRepository {
     @Throws(Exception::class)
     suspend fun getPokemonDetail(params: String): Borrar
 
+
+    @Throws(Exception::class)
+    suspend fun getLocalPokemons(): List<PokemonEntity>
+
+
+
+
 }

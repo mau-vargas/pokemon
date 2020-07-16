@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 
 @Entity(tableName = "pokemon")
-@TypeConverters(ListStringConverter::class)
 data class PokemonEntity(
     @PrimaryKey(autoGenerate = true) val id:Int = 0,
     @ColumnInfo(name = "name") var name: String = "",
