@@ -1,17 +1,15 @@
 package com.android.pokemon.presentation.ui.detail.pokemonDetail
 
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.content.res.AppCompatResources.getColorStateList
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.viewModels
 import com.android.pokemon.R
 import com.android.pokemon.databinding.FragmentDetailBinding
 import com.android.pokemon.domain.entity.prueba.Borrar
+import com.android.pokemon.domain.entity.prueba.Type
 import com.android.pokemon.presentation.appComponent
 import com.android.pokemon.presentation.ui.detail.DetailViewModel
 import com.android.pokemon.presentation.ui.detail.MoreOptions
@@ -83,31 +81,46 @@ class DetailFragment : BaseFragment() {
         }
 
 
-    private fun handleSuccess(pokemon: Borrar) = with(binding) {
-        // toolbar.toolbar_title.text = ""
+    private fun handleSuccess(pokemon: Borrar){
         hideProgress()
 
-        textName.text = pokemon.name
-        weightValue.text = pokemon.weight.toString()
-        heightValue.text = pokemon.height.toString()
+        binding.textName.text = pokemon.name
+        binding.weightValue.text = pokemon.weight.toString()
+        binding.heightValue.text = pokemon.height.toString()
+        setType(pokemon.types)
+
+        pokemon.moves.forEach {
+
+        }
+
+        pokemon.abilities.forEach {
+
+        }
 
 
-        pokemon.types.forEachIndexed { index, type ->
+    }
+
+    private fun setType(types: List<Type>) {
+        types.forEachIndexed { index, type ->
             var name = type.type.name
             when (index) {
                 0 -> {
-                    firstContentType.visible()
-                    firstType.text = name
-                    firstImageType.setImageResource(PokemonImageType.valueOf(name).getValue())
-                    firstImageType.backgroundTintList = getColorStateList(requireContext(), PokemonColorType.valueOf(name).getValue());
-
+                    binding.firstContentType.visible()
+                    binding.firstType.text = name
+                    binding.firstImageType.setImageResource(PokemonImageType.valueOf(name).getValue())
+                    binding.firstImageType.backgroundTintList = getColorStateList(
+                        requireContext(),
+                        PokemonColorType.valueOf(name).getValue()
+                    );
                 }
                 1 -> {
-                    secondContentType.visible()
-                    secondType.text = name
-                    secondImageType.setImageResource(PokemonImageType.valueOf(name).getValue())
-                    secondImageType.backgroundTintList = getColorStateList(requireContext(), PokemonColorType.valueOf(name).getValue());
-
+                    binding.secondContentType.visible()
+                    binding.secondType.text = name
+                    binding.secondImageType.setImageResource(PokemonImageType.valueOf(name).getValue())
+                    binding.secondImageType.backgroundTintList = getColorStateList(
+                        requireContext(),
+                        PokemonColorType.valueOf(name).getValue()
+                    );
                 }
             }
         }
