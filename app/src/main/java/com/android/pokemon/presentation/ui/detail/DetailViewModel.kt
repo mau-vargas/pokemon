@@ -17,7 +17,13 @@ class DetailViewModel @Inject constructor(
     BaseViewModel() {
 
     var liveGetPokemonDetail: MutableLiveData<Resource<Borrar>> = MutableLiveData()
-    var liveGetPokemonPokemon: MutableLiveData<Resource<prueba>> = MutableLiveData()
+    var liveGetPokemonEvolution: MutableLiveData<Resource<prueba>> = MutableLiveData()
+
+
+    val pokemonEvolution: prueba?
+        get() {
+            return liveGetPokemonEvolution.value?.data
+        }
 
 
     fun getPokemonDetail(name: String) = with(liveGetPokemonDetail) {
@@ -35,7 +41,7 @@ class DetailViewModel @Inject constructor(
     }
 
 
-    fun getPokemonEvolution(name: String) = with(liveGetPokemonPokemon) {
+    fun getPokemonEvolution(name: String) = with(liveGetPokemonEvolution) {
         postLoading()
 
         fun onSuccess(data: prueba) {

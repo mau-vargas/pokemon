@@ -8,12 +8,14 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.viewModels
 import com.android.pokemon.R
 import com.android.pokemon.databinding.FragmentDetailBinding
+import com.android.pokemon.domain.entity.evolution.prueba
 import com.android.pokemon.domain.entity.prueba.Borrar
 import com.android.pokemon.domain.entity.prueba.Type
 import com.android.pokemon.presentation.appComponent
 import com.android.pokemon.presentation.ui.detail.DetailViewModel
 import com.android.pokemon.presentation.util.*
 import com.android.pokemon.presentation.util.extension.visible
+import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import javax.inject.Inject
 
@@ -36,6 +38,9 @@ class DetailFragment : BaseFragment() {
 
     private lateinit var id: String
     private lateinit var name: String
+    private lateinit var selected: String
+
+
     private var moves = ArrayList<String>()
     private var abilities = ArrayList<String>()
 
@@ -64,6 +69,15 @@ class DetailFragment : BaseFragment() {
             ::handleSuccess,
             ::handleFailure
         )
+
+        viewModel.liveGetPokemonEvolution.look(
+            this@DetailFragment,
+            ::showProgress,
+            ::handleEvolutionSuccess,
+            ::handleEvolutionFailure
+        )
+
+
         getArgument()
     }
 
@@ -71,9 +85,11 @@ class DetailFragment : BaseFragment() {
         arguments?.let {
             id = it["id"] as String
             name = it["name"] as String
+            selected = it["selected"] as String
 
             picasso.load("https://pokeres.bastionbot.org/images/pokemon/${id}.png")
                 .into(binding.imageView)
+
             viewModel.getPokemonDetail(name)
         }
     }
@@ -99,9 +115,14 @@ class DetailFragment : BaseFragment() {
         pokemon.abilities.forEach {
             abilities.add(it.ability.name)
         }
-
-
     }
+
+    private fun handleEvolutionSuccess(pokemon: prueba) {
+        hideProgress()
+
+        showEvolution(pokemon)
+    }
+
 
     private fun setType(types: List<Type>) {
         types.forEachIndexed { index, type ->
@@ -152,18 +173,31 @@ class DetailFragment : BaseFragment() {
 
     private fun itemEvolutionsOnclick() =
         binding.cardViewEvolutions.setOnClickListener {
-            evolutionsBottomSheet.show(requireActivity().supportFragmentManager, "")
-
-            viewModel.getPokemonEvolution(id)
+            viewModel.pokemonEvolution?.let(this::showEvolution) ?: run {
+                viewModel.getPokemonEvolution(selected)
+            }
         }
 
 
-    private fun showInformationBottomSheet(list: ArrayList<String>){
+    private fun showInformationBottomSheet(list: ArrayList<String>) {
         val arguments = Bundle()
         arguments.putString("name", name)
-        arguments.putSerializable("list",list)
+        arguments.putSerializable("list", list)
         showInformationBottomSheet.arguments = arguments
         showInformationBottomSheet.show(requireActivity().supportFragmentManager, "")
+    }
+
+    private fun showEvolution(pokemon: prueba) {
+        if (pokemon.chain.evolves_to.isNotEmpty()) {
+            val nameEvolution = pokemon.chain.evolves_to.first().species.name
+            val arguments = Bundle()
+            arguments.putString("name", nameEvolution)
+            evolutionsBottomSheet.arguments = arguments
+            evolutionsBottomSheet.show(requireActivity().supportFragmentManager, "")
+        } else {
+            Snackbar.make(requireView(), "This Pokemon doesn't Evolve", Snackbar.LENGTH_LONG).show()
+        }
+
     }
 
 
@@ -174,5 +208,14 @@ class DetailFragment : BaseFragment() {
             }
         }
     }
+
+    private fun handleEvolutionFailure(failure: Failure) {
+        when (failure) {
+            is Failure.Error -> {
+                hideProgress()
+            }
+        }
+    }
+
 
 }
