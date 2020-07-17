@@ -15,12 +15,15 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import org.junit.Assert.*
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import java.util.concurrent.TimeUnit
 
+@RunWith(JUnit4::class)
 class DetailViewModelTest : BaseMockitoTest() {
 
     @InjectMocks

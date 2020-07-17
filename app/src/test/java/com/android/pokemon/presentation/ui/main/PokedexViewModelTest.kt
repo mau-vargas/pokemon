@@ -1,6 +1,5 @@
 package com.android.pokemon.presentation.ui.main
 
-import android.util.Log
 import com.android.pokemon.BaseMockitoTest
 import com.android.pokemon.data.db.PokemonEntity
 import com.android.pokemon.domain.IDataRepository
@@ -13,13 +12,15 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import java.util.concurrent.TimeUnit
 
-
+@RunWith(JUnit4::class)
 class PokedexViewModelTest : BaseMockitoTest() {
     @InjectMocks
     lateinit var viewModel: PokedexViewModel
