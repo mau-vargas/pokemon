@@ -1,13 +1,14 @@
 package com.android.pokemon.presentation.ui.main
 
+import android.R.attr.textColor
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.TextView
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat.getColor
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -18,13 +19,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.pokemon.R
 import com.android.pokemon.data.db.PokemonEntity
 import com.android.pokemon.databinding.FragmentPokedexBinding
-import com.android.pokemon.domain.entity.GetPokemonsResponse
 import com.android.pokemon.presentation.appComponent
 import com.android.pokemon.presentation.util.BaseFragment
 import com.android.pokemon.presentation.util.Failure
 import com.android.pokemon.presentation.util.look
-import kotlinx.android.synthetic.main.fragment_pokedex.view.*
+import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
+
 
 class PokedexFragment : BaseFragment() {
 
@@ -44,7 +45,7 @@ class PokedexFragment : BaseFragment() {
 
         setUpToolBar(
             binding.toolbar,
-            R.string.app_name,
+            R.string.search,
             R.drawable.ic_pokeball
         )
         initLiveData()
@@ -73,8 +74,18 @@ class PokedexFragment : BaseFragment() {
         when (failure) {
             is Failure.Error -> {
                 hideProgress()
+                showInternetError()
             }
         }
+    }
+
+
+    private fun showInternetError(){
+        val snackbar: Snackbar = Snackbar.make(requireView(), "No Internet Connection", Snackbar.LENGTH_SHORT)
+        val snackBarView = snackbar.view
+        snackBarView.setBackgroundColor(getColor(requireContext(),R.color.colorRed))
+        snackbar.duration = 8000
+        snackbar.show()
     }
 
     private fun showItems(listPokemon: List<PokemonEntity>) {

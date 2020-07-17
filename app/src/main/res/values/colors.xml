@@ -3,6 +3,9 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="colorRed">#FE2E2E</color>
+    <color name="colorWhite">#FE2E2E</color>
+
 
     <color name="bug">#91c12d</color>
     <color name="fire">#fba353</color>
