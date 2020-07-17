@@ -132,28 +132,28 @@ class DetailFragment : BaseFragment() {
 
     private fun setType(types: List<Type>) {
         types.forEachIndexed { index, type ->
-            val type = type.type.name
+            val typeName = type.type.name
             when (index) {
                 0 -> {
                     binding.firstContentType.visible()
-                    binding.firstType.text = type
+                    binding.firstType.text = typeName
                     binding.firstImageType.setImageResource(
-                        PokemonImageType.valueOf(type).getValue()
+                        PokemonImageType.valueOf(typeName).getValue()
                     )
                     binding.firstImageType.backgroundTintList = getColorStateList(
                         requireContext(),
-                        PokemonColorType.valueOf(type).getValue()
+                        PokemonColorType.valueOf(typeName).getValue()
                     );
                 }
                 1 -> {
                     binding.secondContentType.visible()
-                    binding.secondType.text = type
+                    binding.secondType.text = typeName
                     binding.secondImageType.setImageResource(
-                        PokemonImageType.valueOf(type).getValue()
+                        PokemonImageType.valueOf(typeName).getValue()
                     )
                     binding.secondImageType.backgroundTintList = getColorStateList(
                         requireContext(),
-                        PokemonColorType.valueOf(type).getValue()
+                        PokemonColorType.valueOf(typeName).getValue()
                     );
                 }
             }
@@ -196,8 +196,11 @@ class DetailFragment : BaseFragment() {
     private fun showEvolution(pokemon: Evolution) {
         if (pokemon.chain.evolves_to.isNotEmpty()) {
             val nameEvolution = pokemon.chain.evolves_to.first().species.name
+            val number = pokemon.chain.evolves_to.first().species.url
+
             val arguments = Bundle()
             arguments.putString("name", nameEvolution)
+            arguments.putString("number", number)
             evolutionsBottomSheet.arguments = arguments
             evolutionsBottomSheet.show(requireActivity().supportFragmentManager, "")
         } else {

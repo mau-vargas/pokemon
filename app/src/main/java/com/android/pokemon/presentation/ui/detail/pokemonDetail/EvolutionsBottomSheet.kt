@@ -12,10 +12,12 @@ import com.android.pokemon.R
 import com.android.pokemon.databinding.ShowEvolutionLayoutBinding
 import com.android.pokemon.databinding.ShowInformationLayoutBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.squareup.picasso.Picasso
 import javax.inject.Inject
 
 class EvolutionsBottomSheet  @Inject constructor(): BottomSheetDialogFragment()  {
     private lateinit var binding: ShowEvolutionLayoutBinding
+    private val picasso = Picasso.get()
 
     override fun setupDialog(dialog: Dialog, style: Int) {
         val contentView = View.inflate(context, R.layout.show_evolution_layout, null)
@@ -38,10 +40,19 @@ class EvolutionsBottomSheet  @Inject constructor(): BottomSheetDialogFragment() 
 
         this.arguments?.let {
             binding.textName.text = it.getString("name", "")
+
+           val id = it.getString("number", "").replace("https://pokeapi.co/api/v2/pokemon-species/", "")
+                .replace("/", "")
+            picasso.load("https://pokeres.bastionbot.org/images/pokemon/${id}.png")
+                .into(binding.imageView)
         }
 
-
+        imageCloseOnclick()
         return  binding.root
+    }
+
+    private fun imageCloseOnclick()=binding.imageClose.setOnClickListener {
+        dialog?.dismiss()
     }
 
 }

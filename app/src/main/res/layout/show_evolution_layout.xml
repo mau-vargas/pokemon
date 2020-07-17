@@ -37,8 +37,9 @@
 
                 <ImageView
                     android:id="@+id/imageView"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="16dp"
                     app:layout_constraintBottom_toTopOf="@+id/textName"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -47,29 +48,29 @@
                     app:layout_constraintVertical_chainStyle="spread"
                     app:srcCompat="@drawable/ic_pika" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout"
-                    android:layout_width="393dp"
-                    android:layout_height="132dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textName">
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
                 <TextView
                     android:id="@+id/textName"
                     android:layout_width="393dp"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:layout_marginTop="8dp"
                     android:gravity="center_horizontal"
-                    app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+                    android:text="TextView"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+                <ImageView
+                    android:id="@+id/imageClose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:tint="@android:color/darker_gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_close" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>

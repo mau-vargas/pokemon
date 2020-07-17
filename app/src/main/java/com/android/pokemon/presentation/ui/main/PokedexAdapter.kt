@@ -8,7 +8,9 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.android.pokemon.databinding.ItemPokemonBinding
 import com.squareup.picasso.Picasso
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 import kotlin.reflect.KFunction1
 
 class PokedexAdapter @Inject constructor(val context: Context) :
@@ -43,7 +45,6 @@ class PokedexAdapter @Inject constructor(val context: Context) :
 
         holder.item.setOnClickListener {
             selected.invoke(position)
-            true
         }
     }
 
@@ -61,9 +62,10 @@ class PokedexAdapter @Inject constructor(val context: Context) :
             if (charSequence.isEmpty()) {
                 listFilter.addAll(itemsListFull)
             } else {
-                val filterPatter = charSequence.toString().toLowerCase().trim { it <= ' ' }
                 for (item in itemsListFull) {
-                    if (item.title.toLowerCase().contains(filterPatter)) {
+
+                    val filterPatter =  cleanData(charSequence.toString())
+                    if (cleanData(item.title).contains(filterPatter)) {
                         listFilter.add(item)
                     }
                 }
@@ -72,6 +74,12 @@ class PokedexAdapter @Inject constructor(val context: Context) :
             results.values = listFilter
             return results
         }
+
+
+        private fun cleanData(value: String):String{
+          return value.toLowerCase(Locale.ROOT).trim { it <= ' ' }
+        }
+
 
         override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
             (itemsList as MutableList<ItemPokedex>).clear()
