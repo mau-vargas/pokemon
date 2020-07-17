@@ -27,12 +27,12 @@ class GetRemotePokemonUserCaseTest {
     @Mock
     lateinit var repository: IDataRepository
 
-    private lateinit var userCase:GetRemotePokemonUserCase
+    private lateinit var userCase: GetRemotePokemonUserCase
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-         userCase = GetRemotePokemonUserCase(repository = repository)
+        userCase = GetRemotePokemonUserCase(repository = repository)
     }
 
     @Test
@@ -47,7 +47,7 @@ class GetRemotePokemonUserCaseTest {
         }
         // then
         runBlocking(Dispatchers.Unconfined) {
-            val  result  = userCase.prepareExecuteOnBackground(GetPokemonRequest())
+            val result = userCase.prepareExecuteOnBackground(GetPokemonRequest())
             result.pokemon_species[0]?.let {
                 assertEquals(1, it.id)
                 assertEquals("Pikachu", it.name)
