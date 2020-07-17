@@ -104,7 +104,7 @@ class DetailViewModelTest : BaseMockitoTest() {
 
     @Test
     fun getPokemonEvolutionTest(name: String)  = with(viewModel.liveGetPokemonEvolution.test(2)) {//= with(liveGetPokemonEvolution) {
-
+/*
         //Given
         val pokemonName = "bulbasaur"
         Evolution("","",0)
@@ -126,13 +126,13 @@ class DetailViewModelTest : BaseMockitoTest() {
                 is Resource.Loading -> println("Loading State")
                 is Resource.Success -> {
                     it.data
-               /*     it.data?.abilities?.first()?.ability?.let {
+               *//*     it.data?.abilities?.first()?.ability?.let {
                         assertEquals("bulbasaur",it.name)
                         assertEquals("www.detail.com",it.url)
-                    }*/
+                    }*//*
                 }
             }
-        }
+        }*/
     }
 
 

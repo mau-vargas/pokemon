@@ -17,6 +17,5 @@ data class EvolutionDetailX(
     val relative_physical_stats: Any,
     val time_of_day: String,
     val trade_species: Any,
-    val trigger: TriggerX,
     val turn_upside_down: Boolean
 )
