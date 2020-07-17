@@ -1,24 +1,19 @@
 package com.android.pokemon.presentation.ui.detail
 
-import android.util.Log
 import com.android.pokemon.BaseMockitoTest
-import com.android.pokemon.data.db.PokemonEntity
 import com.android.pokemon.domain.IDataRepository
 import com.android.pokemon.domain.entity.Detail.*
-import com.android.pokemon.domain.entity.GetPokemonsResponse
+import com.android.pokemon.domain.entity.evolution.Chain
 import com.android.pokemon.domain.entity.evolution.Evolution
-import com.android.pokemon.domain.interactor.GetLocalPokemonUserCase
+import com.android.pokemon.domain.entity.evolution.EvolvesTo
+import com.android.pokemon.domain.entity.evolution.Species
 import com.android.pokemon.domain.interactor.GetPokemonDetailUserCase
 import com.android.pokemon.domain.interactor.GetPokemonEvolutionUserCase
-import com.android.pokemon.domain.interactor.GetRemotePokemonUserCase
-import com.android.pokemon.presentation.ui.main.PokedexViewModel
-import com.android.pokemon.presentation.util.Failure
 import com.android.pokemon.presentation.util.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
-
 import org.junit.Assert.*
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -44,11 +39,9 @@ class DetailViewModelTest : BaseMockitoTest() {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
 
-
         getPokemonDetailUserCase = Mockito.spy(GetPokemonDetailUserCase(repository))
 
         getPokemonEvolutionUserCase = Mockito.spy(GetPokemonEvolutionUserCase(repository))
-
 
         viewModel = DetailViewModel(
             getPokemonDetailUserCase, getPokemonEvolutionUserCase
@@ -94,8 +87,8 @@ class DetailViewModelTest : BaseMockitoTest() {
                 is Resource.Success -> {
                     it.data
                     it.data?.abilities?.first()?.ability?.let {
-                        assertEquals("bulbasaur",it.name)
-                        assertEquals("www.detail.com",it.url)
+                        assertEquals("bulbasaur", it.name)
+                        assertEquals("www.detail.com", it.url)
                     }
                 }
             }
@@ -103,19 +96,24 @@ class DetailViewModelTest : BaseMockitoTest() {
     }
 
     @Test
-    fun getPokemonEvolutionTest(name: String)  = with(viewModel.liveGetPokemonEvolution.test(2)) {//= with(liveGetPokemonEvolution) {
-/*
+    fun getPokemonEvolutionTest() = with(viewModel.liveGetPokemonEvolution.test(2)) {
+
         //Given
         val pokemonName = "bulbasaur"
-        Evolution("","",0)
-        val response = Detail(
-            abilities,
-            location_area_encounters, moves, types, height, weight, id, pokemonName
-        )
+        val urlValue = "www.test.cl"
+
+        val species = Species(pokemonName, urlValue)
+        val evolvesTo = EvolvesTo(species)
+
+        val evolvesToArrayList = ArrayList<EvolvesTo>()
+        evolvesToArrayList.add(evolvesTo)
+
+        val chain = Chain(evolvesToArrayList)
+        val response = Evolution(chain, 0)
 
         //When
         runBlocking(Dispatchers.Main) {
-            Mockito.`when`(repository.getPokemonDetail(pokemonName)).thenReturn(response)
+            Mockito.`when`(repository.getPokemonEvolution(pokemonName)).thenReturn(response)
         }
         //Then
         viewModel.getPokemonEvolution(pokemonName)
@@ -125,15 +123,18 @@ class DetailViewModelTest : BaseMockitoTest() {
             when (it) {
                 is Resource.Loading -> println("Loading State")
                 is Resource.Success -> {
-                    it.data
-               *//*     it.data?.abilities?.first()?.ability?.let {
-                        assertEquals("bulbasaur",it.name)
-                        assertEquals("www.detail.com",it.url)
-                    }*//*
+
+                    assertEquals("bulbasaur", it.data?.chain?.evolves_to?.first()?.species?.name)
                 }
             }
-        }*/
+        }
     }
 
 
+    @Test
+    fun livePokemonEvolutionTest(){
+        assertEquals(viewModel.pokemonEvolution , null)
+    }
 }
+
+
