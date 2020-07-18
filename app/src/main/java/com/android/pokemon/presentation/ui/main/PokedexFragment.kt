@@ -1,12 +1,10 @@
 package com.android.pokemon.presentation.ui.main
 
-import android.R.attr.textColor
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.os.bundleOf
@@ -80,12 +78,26 @@ class PokedexFragment : BaseFragment() {
     }
 
 
-    private fun showInternetError(){
-        val snackbar: Snackbar = Snackbar.make(requireView(), "No Internet Connection", Snackbar.LENGTH_SHORT)
-        val snackBarView = snackbar.view
-        snackBarView.setBackgroundColor(getColor(requireContext(),R.color.colorRed))
-        snackbar.duration = 8000
-        snackbar.show()
+    private fun showInternetError() {
+        val white = getColor(requireContext(), R.color.colorWhite)
+        with(
+            Snackbar.make(
+                requireView(),
+                getText(R.string.error_internet),
+                Snackbar.LENGTH_SHORT
+            )
+        ) {
+            val snackBarView = this.view
+            snackBarView.setBackgroundColor(getColor(requireContext(), R.color.colorRed))
+            this.duration = 10000
+            this.setTextColor(white)
+            this.setActionTextColor(white)
+            this.setAction(getText(R.string.retry)) {
+                this.dismiss()
+                viewModel.getLocalPokemon()
+            }
+            this.show()
+        }
     }
 
     private fun showItems(listPokemon: List<PokemonEntity>) {
@@ -146,8 +158,12 @@ class PokedexFragment : BaseFragment() {
     private fun selected(id: Int) {
         var item = pokedexAdapter.itemsList[id]
         pokedexAdapter.itemsListFull.forEachIndexed { index, itemPokedex ->
-            if(itemPokedex.title == item.title){
-                val bundle = bundleOf("id" to item.id, "name" to item.title, "selected" to (index +1).toString())
+            if (itemPokedex.title == item.title) {
+                val bundle = bundleOf(
+                    "id" to item.id,
+                    "name" to item.title,
+                    "selected" to (index + 1).toString()
+                )
                 findNavController().navigate(
                     R.id.action_pokedexFragment_to_detailFragment,
                     bundle

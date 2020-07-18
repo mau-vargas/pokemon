@@ -82,9 +82,12 @@ class PokedexAdapter @Inject constructor(val context: Context) :
 
 
         override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
-            (itemsList as MutableList<ItemPokedex>).clear()
-            (itemsList as MutableList<ItemPokedex>).addAll(filterResults.values as List<ItemPokedex>)
-            notifyDataSetChanged()
+            if(itemsList.size>0){
+                (itemsList as MutableList<ItemPokedex>).clear()
+                (itemsList as MutableList<ItemPokedex>).addAll(filterResults.values as List<ItemPokedex>)
+                notifyDataSetChanged()
+            }
+
         }
 
     }
