@@ -6,12 +6,11 @@ import com.android.pokemon.domain.entity.GetPokemonsResponse
 import com.android.pokemon.domain.util.BaseUseCase
 import javax.inject.Inject
 
-
-class GetImagePokemonUserCase @Inject constructor(private val repository: IDataRepository) :
-    BaseGetImagePokemonUserCase() {
+class GetRemotePokemonUserCase @Inject constructor(private val repository: IDataRepository) :
+    BaseGetRemotePokemonUserCase() {
 
     override suspend fun prepareExecuteOnBackground(params: GetPokemonRequest): GetPokemonsResponse =
         repository.getPokemons()
 }
 
-typealias BaseGetImagePokemonUserCase = BaseUseCase<GetPokemonRequest, GetPokemonsResponse>
+typealias BaseGetRemotePokemonUserCase = BaseUseCase<GetPokemonRequest, GetPokemonsResponse>

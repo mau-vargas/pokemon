@@ -7,7 +7,10 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.android.pokemon.databinding.ItemPokemonBinding
+import com.squareup.picasso.Picasso
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 import kotlin.reflect.KFunction1
 
 class PokedexAdapter @Inject constructor(val context: Context) :
@@ -18,6 +21,8 @@ class PokedexAdapter @Inject constructor(val context: Context) :
     var itemsList: List<ItemPokedex> = listOf()
 
     lateinit var itemsListFull: ArrayList<ItemPokedex>
+
+    private val picasso = Picasso.get()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,11 +40,11 @@ class PokedexAdapter @Inject constructor(val context: Context) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = itemsList[position]
         holder.itemName.text = item.title
-
+        picasso.load("https://pokeres.bastionbot.org/images/pokemon/${item.id}.png")
+            .into(holder.imagePokemon)
 
         holder.item.setOnClickListener {
             selected.invoke(position)
-            true
         }
     }
 
@@ -57,9 +62,10 @@ class PokedexAdapter @Inject constructor(val context: Context) :
             if (charSequence.isEmpty()) {
                 listFilter.addAll(itemsListFull)
             } else {
-                val filterPatter = charSequence.toString().toLowerCase().trim { it <= ' ' }
                 for (item in itemsListFull) {
-                    if (item.title.toLowerCase().contains(filterPatter)) {
+
+                    val filterPatter =  cleanData(charSequence.toString())
+                    if (cleanData(item.title).contains(filterPatter)) {
                         listFilter.add(item)
                     }
                 }
@@ -69,10 +75,19 @@ class PokedexAdapter @Inject constructor(val context: Context) :
             return results
         }
 
+
+        private fun cleanData(value: String):String{
+          return value.toLowerCase(Locale.ROOT).trim { it <= ' ' }
+        }
+
+
         override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
-            (itemsList as MutableList<ItemPokedex>).clear()
-            (itemsList as MutableList<ItemPokedex>).addAll(filterResults.values as List<ItemPokedex>)
-            notifyDataSetChanged()
+            if(itemsList.size>0){
+                (itemsList as MutableList<ItemPokedex>).clear()
+                (itemsList as MutableList<ItemPokedex>).addAll(filterResults.values as List<ItemPokedex>)
+                notifyDataSetChanged()
+            }
+
         }
 
     }
@@ -80,6 +95,7 @@ class PokedexAdapter @Inject constructor(val context: Context) :
     class ViewHolder(binding: ItemPokemonBinding) : RecyclerView.ViewHolder(binding.root) {
         val item = binding.item
         val itemName = binding.itemName
+        val imagePokemon = binding.imagePokemon
     }
 
     fun setList(data: MutableList<ItemPokedex>) {

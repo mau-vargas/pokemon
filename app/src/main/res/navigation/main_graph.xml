@@ -13,6 +13,6 @@
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.android.pokemon.presentation.ui.detail.DetailFragment"
+        android:name="com.android.pokemon.presentation.ui.detail.pokemonDetail.DetailFragment"
         android:label="DetailFragment" />
 </navigation>

@@ -2,6 +2,7 @@ package com.android.pokemon.presentation.di.module
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.android.pokemon.presentation.ui.detail.DetailViewModel
 import com.android.pokemon.presentation.ui.main.PokedexViewModel
 import com.android.pokemon.presentation.util.ViewModelFactory
 import com.android.pokemon.presentation.util.ViewModelKey
@@ -18,6 +19,13 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(PokedexViewModel::class)
-    abstract fun bindMainScreenViewModel(viewModel: PokedexViewModel): ViewModel
+    abstract fun bindPokedexViewModel(viewModel: PokedexViewModel): ViewModel
+
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DetailViewModel::class)
+    abstract fun bindDetailViewModel(viewModel: DetailViewModel): ViewModel
+
 
 }

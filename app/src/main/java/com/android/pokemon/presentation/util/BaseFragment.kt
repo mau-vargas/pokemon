@@ -1,8 +1,10 @@
 package com.android.pokemon.presentation.util
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -82,4 +84,15 @@ abstract class BaseFragment : Fragment() {
             supportActionBar?.show()
         }
     }
+
+    protected fun hideKeyboard() {
+        val imm =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        val view = requireActivity().currentFocus
+        if(view!=null){
+            imm.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+        }
+    }
+
 }

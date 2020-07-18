@@ -5,24 +5,25 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat.getColor
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.pokemon.R
+import com.android.pokemon.data.db.PokemonEntity
 import com.android.pokemon.databinding.FragmentPokedexBinding
-import com.android.pokemon.domain.entity.GetPokemonsResponse
 import com.android.pokemon.presentation.appComponent
 import com.android.pokemon.presentation.util.BaseFragment
 import com.android.pokemon.presentation.util.Failure
 import com.android.pokemon.presentation.util.look
-import kotlinx.android.synthetic.main.fragment_pokedex.view.*
+import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
+
 
 class PokedexFragment : BaseFragment() {
 
@@ -31,7 +32,6 @@ class PokedexFragment : BaseFragment() {
     private lateinit var binding: FragmentPokedexBinding
 
     private val viewModel: PokedexViewModel by viewModels { viewModelFactory }
-
 
     @Inject
     lateinit var pokedexAdapter: PokedexAdapter
@@ -43,7 +43,7 @@ class PokedexFragment : BaseFragment() {
 
         setUpToolBar(
             binding.toolbar,
-            R.string.app_name,
+            R.string.search,
             R.drawable.ic_pokeball
         )
         initLiveData()
@@ -62,7 +62,7 @@ class PokedexFragment : BaseFragment() {
     }
 
 
-    private fun handleSuccess(listPokemon: GetPokemonsResponse) {
+    private fun handleSuccess(listPokemon: List<PokemonEntity>) {
         // toolbar.toolbar_title.text = ""
         hideProgress()
         showItems(listPokemon)
@@ -72,13 +72,37 @@ class PokedexFragment : BaseFragment() {
         when (failure) {
             is Failure.Error -> {
                 hideProgress()
+                showInternetError()
             }
         }
     }
 
-    private fun showItems(listPokemon: GetPokemonsResponse) {
+
+    private fun showInternetError() {
+        val white = getColor(requireContext(), R.color.colorWhite)
+        with(
+            Snackbar.make(
+                requireView(),
+                getText(R.string.error_internet),
+                Snackbar.LENGTH_SHORT
+            )
+        ) {
+            val snackBarView = this.view
+            snackBarView.setBackgroundColor(getColor(requireContext(), R.color.colorRed))
+            this.duration = 10000
+            this.setTextColor(white)
+            this.setActionTextColor(white)
+            this.setAction(getText(R.string.retry)) {
+                this.dismiss()
+                viewModel.getLocalPokemon()
+            }
+            this.show()
+        }
+    }
+
+    private fun showItems(listPokemon: List<PokemonEntity>) {
         val itemsToAdapter: MutableList<ItemPokedex> = mutableListOf()
-        listPokemon.pokemon_species.forEach {
+        listPokemon.forEach {
             itemsToAdapter.add(
                 ItemPokedex(
                     it.name,
@@ -93,8 +117,7 @@ class PokedexFragment : BaseFragment() {
         }
 
         pokedexAdapter.setList(itemsToAdapter)
-
-        val lim = LinearLayoutManager(requireContext())
+        val lim = GridLayoutManager(context, 3)
         lim.orientation = LinearLayoutManager.VERTICAL
         binding.recyclerViewItem.layoutManager = lim
         binding.recyclerViewItem.adapter = pokedexAdapter
@@ -108,8 +131,6 @@ class PokedexFragment : BaseFragment() {
 
         val searchAutoComplete =
             searchView.findViewById<View>(R.id.search_src_text) as SearchView.SearchAutoComplete
-        searchAutoComplete.setHintTextColor(resources.getColor(R.color.colorPrimary))
-        searchAutoComplete.setTextColor(resources.getColor(R.color.colorPrimary))
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(s: String): Boolean {
@@ -136,11 +157,23 @@ class PokedexFragment : BaseFragment() {
 
     private fun selected(id: Int) {
         var item = pokedexAdapter.itemsList[id]
-        val bundle = bundleOf("id" to item.id)
-        findNavController().navigate(
-            R.id.action_pokedexFragment_to_detailFragment,
-            bundle
-        )
+        pokedexAdapter.itemsListFull.forEachIndexed { index, itemPokedex ->
+            if (itemPokedex.title == item.title) {
+                val bundle = bundleOf(
+                    "id" to item.id,
+                    "name" to item.title,
+                    "selected" to (index + 1).toString()
+                )
+                findNavController().navigate(
+                    R.id.action_pokedexFragment_to_detailFragment,
+                    bundle
+                )
+                return
+            }
+
+        }
+
+
     }
 
 }
