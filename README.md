@@ -9,7 +9,8 @@ al seleccionar uno puedes revisar su detalle
 
 
 ### Clone
-- Clonar el repositorio usando https://github.com.....
+- Clonar el repositorio usando https://github.com/mau-vargas/pokemon.git 
+- tag version/1.0.0
 
 ### dependencias utilizadas
 
@@ -35,3 +36,13 @@ MVVM
 #Lenguaje
 Kotlin
 ```
+
+###  Screenshots
+<img src="art/Screenshot_1595031165.png" alt="phone image" width="200px" />
+<img src="art/Screenshot_1595031485.png" alt="phone image" width="200px" />
+<img src="art/Screenshot_1595031518.png" alt="phone image" width="200px" />
+<img src="art/Screenshot_1595031247.png" alt="phone image" width="200px" />
+<img src="art/Screenshot_1595031442.png" alt="phone image" width="200px" />
+
+
+
